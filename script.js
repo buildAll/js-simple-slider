@@ -11,12 +11,14 @@
       this._el = document.getElementById(elId);
       this._el.style.position = 'relative';
       this._el.addEventListener('mouseenter', function(){
+         self._mouseOverlap = true;
         if(!self._isScrolling){
           self.stop();
           clearTimeout(self._pause);
         }
       });
       this._el.addEventListener('mouseleave', function(){
+        self._mouseOverlap = false;
         if(!self._isScrolling){
           self.start();
           clearTimeout(self._pause);
@@ -29,13 +31,14 @@
        this._el.style.left = this._curP+'px';
        this._timeCount += 1;
     },
-    _duration:0,
+    _duration: 0,
+    _mouseOverlap: false,
     setDuration: function(d){
       this._duration = d;
     },
     start: function(){
       var self = this;
-      //this.timer = setInterval(me.move(8,-700),1)
+      if(this._mouseOverlap) return;
       !this._isScrolling ? this._isScrolling = true:null;
       this._timer = setInterval(function(){
         self._move(5,700);
